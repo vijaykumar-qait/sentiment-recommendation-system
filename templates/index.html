@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-<!-- Product Recommendation System-->
-<!-- UI for entering username and getting top 5 recommendations -->
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -60,21 +57,9 @@
             margin-bottom: 10px;
         }
 
-        .info-box ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .info-box ul li {
-            padding: 5px 0;
+        .info-box p {
             color: #555;
-        }
-
-        .info-box ul li:before {
-            content: "✓ ";
-            color: #28a745;
-            font-weight: bold;
-            margin-right: 10px;
+            line-height: 1.6;
         }
 
         .form-group {
@@ -151,26 +136,21 @@
 </head>
 <body>
     <div class="container">
-        <h1>🛍️ Product Recommender</h1>
-        <p class="subtitle">AI-Powered Sentiment-Based Recommendations</p>
+        <h1>Product Recommendation System</h1>
+        <p class="subtitle">Sentiment-Based Product Recommendations</p>
 
         <div class="info-box">
-            <h3>How it works:</h3>
-            <ul>
-                <li>Enter your username below</li>
-                <li>Our AI generates 20 personalized product recommendations</li>
-                <li>Filters to top 5 using sentiment analysis</li>
-                <li>Get products with highest ratings and positive reviews</li>
-            </ul>
+            <h3>About this system:</h3>
+            <p>This system uses Item-Based Collaborative Filtering to generate 20 product recommendations, then uses Random Forest sentiment analysis to filter them down to the top 5 products with the most positive reviews.</p>
         </div>
 
         <form action="/recommend" method="POST">
             <div class="form-group">
-                <label for="username">Enter Username:</label>
+                <label for="username">Username:</label>
                 <input type="text"
                        id="username"
                        name="username"
-                       placeholder="e.g., mike, john, sarah..."
+                       placeholder="Enter username (e.g. mike, john, sarah)"
                        required
                        list="usernames">
                 <datalist id="usernames">
@@ -178,15 +158,14 @@
                     <option value="{{ user }}">
                     {% endfor %}
                 </datalist>
-                <p class="input-hint">💡 Try: mike, john, sarah, or any username from our database</p>
+                <small class="input-hint">Note: Username must exist in the training dataset</small>
             </div>
 
-            <button type="submit">Get My Recommendations 🎯</button>
+            <button type="submit">Get Recommendations</button>
         </form>
 
         <div class="footer">
-            <p>Capstone Project - AI/ML Course</p>
-            <p>Sentiment-Based Product Recommendation System</p>
+            <p>IIITB Capstone Project</p>
         </div>
     </div>
 </body>
