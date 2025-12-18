@@ -23,6 +23,12 @@ from model import (
 
 app = Flask(__name__)
 
+# Load models when app starts
+print("="*80)
+print("Starting Flask application...")
+print("="*80)
+load_models()
+
 @app.route('/')
 def index():
     """Home page with user input"""
@@ -88,8 +94,6 @@ def health():
     })
 
 if __name__ == '__main__':
-    # Load models before starting server
-    load_models()
 
     # Run Flask app
     port = int(os.environ.get('PORT', 5000))
