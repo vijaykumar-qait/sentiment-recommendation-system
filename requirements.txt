@@ -1,0 +1,34 @@
+# Core Data Science Libraries
+pandas>=2.2.0
+numpy>=1.26.0
+
+# Visualization
+matplotlib>=3.8.0
+seaborn>=0.13.0
+wordcloud>=1.9.0
+
+# Machine Learning
+scikit-learn>=1.8.0
+xgboost>=2.0.0
+
+
+# Natural Language Processing
+nltk>=3.8.0
+textblob>=0.17.0
+
+# Recommendation Systems
+scipy>=1.11.0
+
+# Flask Deployment
+flask>=3.0.0
+gunicorn>=21.2.0
+werkzeug>=3.0.0
+
+# Jupyter
+jupyter>=1.0.0
+notebook>=7.0.0
+ipykernel>=6.28.0
+
+# Utilities
+tqdm>=4.66.0
+joblib>=1.3.0

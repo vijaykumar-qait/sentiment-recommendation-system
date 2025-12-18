@@ -1,0 +1,12 @@
+{
+  "model_name": "Random Forest",
+  "test_accuracy": 0.9185322336307019,
+  "test_f1": 0.9557748538011696,
+  "test_precision": 0.9225612982889398,
+  "test_recall": 0.9914691943127962,
+  "test_roc_auc": 0.9139456043721449,
+  "overfitting_gap": 0.08138360191194838,
+  "class_imbalance_ratio": 7.926746806912096,
+  "training_samples": 23763,
+  "testing_samples": 5941
+}
