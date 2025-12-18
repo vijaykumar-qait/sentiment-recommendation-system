@@ -1,276 +1,167 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Recommendations</title>
+    <title>Recommendations - Product Recommendation System</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
+            margin: 0;
+            padding: 20px;
             min-height: 100vh;
-            padding: 40px 20px;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1100px;
+            margin: 30px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .header {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        h2 {
+            color: #1a1a1a;
             text-align: center;
+            margin-bottom: 8px;
+            font-size: 28px;
         }
 
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-        }
-
-        .username {
-            color: #667eea;
-            font-weight: bold;
-        }
-
-        .subtitle {
-            color: #666;
-            margin-top: 10px;
-            font-size: 1.1em;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            background: #f8f9fa;
-            padding: 15px 30px;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-
-        .stat-value {
-            font-size: 2em;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .stat-label {
-            color: #666;
-            font-size: 0.9em;
-            margin-top: 5px;
-        }
-
-        .recommendations {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
-            position: relative;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .rank-badge {
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2em;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .product-name {
-            color: #333;
-            font-size: 1.2em;
-            font-weight: 600;
+        .user-info {
+            background: #e7f3ff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
             margin-bottom: 20px;
-            margin-left: 20px;
-            line-height: 1.4;
+            text-align: center;
+            font-size: 15px;
         }
 
-        .metrics {
+        .summary-box {
+            background: #f8f9fa;
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin-top: 20px;
         }
 
-        .metric-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
+        table thead {
+            background: #007bff;
+            color: white;
         }
 
-        .metric-row:last-child {
-            border-bottom: none;
-        }
-
-        .metric-label {
-            color: #666;
-            font-size: 0.95em;
-        }
-
-        .metric-value {
+        table th {
+            padding: 14px 12px;
+            text-align: left;
             font-weight: 600;
-            color: #333;
+            font-size: 14px;
         }
 
-        .rating {
-            color: #ffa500;
-            font-size: 1.1em;
+        table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 14px;
         }
 
-        .sentiment-positive {
+        table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .rank-col {
+            width: 60px;
+            text-align: center;
+            font-weight: 700;
+            color: #007bff;
+            font-size: 16px;
+        }
+
+        .positive {
             color: #28a745;
-            font-weight: bold;
+            font-weight: 600;
         }
 
-        .sentiment-bar {
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 10px;
+        .negative {
+            color: #dc3545;
         }
 
-        .sentiment-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
-
-        .back-button {
+        .back-link {
             display: inline-block;
             margin-top: 30px;
-            padding: 15px 40px;
-            background: white;
-            color: #667eea;
+            padding: 12px 24px;
+            background: #6c757d;
+            color: white;
             text-decoration: none;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background 0.2s;
         }
 
-        .back-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        .back-link:hover {
+            background: #5a6268;
         }
 
         .footer {
+            margin-top: 35px;
+            font-size: 13px;
+            color: #999;
             text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .recommendations {
-                grid-template-columns: 1fr;
-            }
-
-            .stats {
-                flex-direction: column;
-                gap: 15px;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🎁 Your Personalized Recommendations</h1>
-            <p class="subtitle">
-                Recommendations for <span class="username">{{ username }}</span>
-            </p>
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-value">{{ total_generated }}</div>
-                    <div class="stat-label">Products Analyzed</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">5</div>
-                    <div class="stat-label">Top Recommendations</div>
-                </div>
-            </div>
-        </div>
 
-        <div class="recommendations">
-            {% for product in recommendations %}
-            <div class="product-card">
-                <div class="rank-badge">{{ loop.index }}</div>
-                <div class="product-name">{{ product.product }}</div>
+<div class="container">
+    <h2>Top 5 Recommendations</h2>
 
-                <div class="metrics">
-                    <div class="metric-row">
-                        <span class="metric-label">Predicted Rating</span>
-                        <span class="metric-value rating">⭐ {{ "%.2f"|format(product.predicted_rating) }}/5.0</span>
-                    </div>
-
-                    <div class="metric-row">
-                        <span class="metric-label">Total Reviews</span>
-                        <span class="metric-value">{{ product.total_reviews }}</span>
-                    </div>
-
-                    <div class="metric-row">
-                        <span class="metric-label">Positive Reviews</span>
-                        <span class="metric-value sentiment-positive">
-                            ✓ {{ product.positive_reviews }} ({{ "%.1f"|format(product.positive_percentage) }}%)
-                        </span>
-                    </div>
-
-                    <div class="metric-row">
-                        <span class="metric-label">Negative Reviews</span>
-                        <span class="metric-value" style="color: #dc3545;">
-                            ✗ {{ product.negative_reviews }}
-                        </span>
-                    </div>
-                </div>
-
-                <div class="sentiment-bar">
-                    <div class="sentiment-fill" style="width: {{ product.positive_percentage }}%"></div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-
-        <div class="footer">
-            <a href="/" class="back-button">← Get Recommendations for Another User</a>
-        </div>
+    <div class="user-info">
+        <strong>Recommendations for:</strong> {{ username }}
     </div>
+
+    <div class="summary-box">
+        <strong>Process:</strong> Generated {{ total_generated }} recommendations using Item-Based CF, filtered to top 5 using Random Forest sentiment analysis based on positive review percentage.
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Product Name</th>
+                <th>Predicted Rating</th>
+                <th>Total Reviews</th>
+                <th>Positive</th>
+                <th>Negative</th>
+                <th>Positive %</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in recommendations %}
+            <tr>
+                <td class="rank-col">{{ loop.index }}</td>
+                <td>{{ product.product }}</td>
+                <td>{{ "%.2f"|format(product.predicted_rating) }}/5.0</td>
+                <td>{{ product.total_reviews }}</td>
+                <td class="positive">{{ product.positive_reviews }}</td>
+                <td class="negative">{{ product.negative_reviews }}</td>
+                <td class="positive">{{ "%.1f"|format(product.positive_percentage) }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/" class="back-link">&larr; Back to Home</a>
+
+    <div class="footer">
+        IIITB AI-ML Capstone Project | 2024-25
+    </div>
+</div>
+
 </body>
 </html>

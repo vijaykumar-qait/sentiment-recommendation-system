@@ -41,10 +41,13 @@ def index():
 @app.route('/recommend', methods=['POST'])
 def recommend():
     """Generate recommendations for selected user"""
-    username = request.form.get('username')
+    # Check manual input first, then dropdown
+    username = request.form.get('username_input')
+    if not username:
+        username = request.form.get('username_select')
 
     if not username:
-        return render_template('error.html', error="Please enter a username")
+        return render_template('error.html', error="Please either select a user from dropdown or type username")
 
     # Generate top 20 recommendations
     top_20, error = get_top_20_recommendations(username)

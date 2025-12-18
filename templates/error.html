@@ -1,77 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error - Recommendation System</title>
+    <title>Error - Product Recommendation System</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
+            margin: 0;
+            padding: 20px;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            padding: 20px;
+            justify-content: center;
         }
 
         .container {
+            max-width: 550px;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 50px;
-            max-width: 600px;
-            width: 100%;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             text-align: center;
         }
 
-        .error-icon {
-            font-size: 5em;
-            margin-bottom: 20px;
-        }
-
-        h1 {
+        h2 {
             color: #dc3545;
             margin-bottom: 20px;
-            font-size: 2em;
+            font-size: 26px;
         }
 
-        .error-message {
-            color: #666;
-            font-size: 1.2em;
-            margin-bottom: 30px;
+        .error-box {
+            background: #f8d7da;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #dc3545;
+            margin: 25px 0;
+            color: #721c24;
+            font-size: 15px;
             line-height: 1.6;
         }
 
-        .back-button {
-            display: inline-block;
-            padding: 15px 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
+        .hint {
+            color: #666;
+            font-size: 14px;
+            margin: 20px 0;
         }
 
-        .back-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .back-link:hover {
+            background: #0056b3;
+        }
+
+        .footer {
+            margin-top: 35px;
+            font-size: 13px;
+            color: #999;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="error-icon">⚠️</div>
-        <h1>Oops! Something went wrong</h1>
-        <p class="error-message">{{ error }}</p>
-        <a href="/" class="back-button">← Go Back to Home</a>
+
+<div class="container">
+    <h2>Error Occurred</h2>
+
+    <div class="error-box">
+        {{ error }}
     </div>
+
+    <p class="hint">Please check the username and try again.</p>
+
+    <a href="/" class="back-link">&larr; Back to Home</a>
+
+    <div class="footer">
+        IIITB AI-ML Capstone Project | 2024-25
+    </div>
+</div>
+
 </body>
 </html>
