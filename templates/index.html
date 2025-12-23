@@ -4,79 +4,112 @@
     <meta charset="UTF-8">
     <title>{% if error %}Error{% elif recommendations %}Recommendations{% else %}IIITB Capstone{% endif %} - Product Recommendation System</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header-banner {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+
+        .header-banner h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header-banner p {
+            font-size: 16px;
+            opacity: 0.95;
         }
 
         .container {
-            max-width: {% if recommendations %}1100px{% else %}650px{% endif %};
-            margin: 40px auto;
+            max-width: {% if recommendations %}1200px{% else %}700px{% endif %};
+            margin: 0 auto;
             background: white;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
         }
 
         h2 {
-            color: {% if error %}#dc3545{% else %}#1a1a1a{% endif %};
+            color: {% if error %}#e53e3e{% else %}#2d3748{% endif %};
             text-align: center;
-            margin-bottom: {% if error %}20px{% else %}10px{% endif %};
-            font-size: {% if error %}26px{% else %}28px{% endif %};
+            margin-bottom: 15px;
+            font-size: 30px;
+            font-weight: 700;
         }
 
         .subtitle {
             text-align: center;
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 25px;
+            color: #718096;
+            font-size: 15px;
+            margin-bottom: 30px;
         }
 
         .project-info {
-            background: #f8f9fa;
-            padding: 18px;
-            border-radius: 8px;
-            border-left: 4px solid #007bff;
-            margin-bottom: 30px;
-            font-size: 14px;
-            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 10px;
+            margin-bottom: 35px;
+            font-size: 15px;
+            line-height: 1.7;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .project-info strong {
+            font-size: 16px;
         }
 
         .user-info {
-            background: #e7f3ff;
-            padding: 12px 20px;
-            border-radius: 8px;
-            border-left: 4px solid #007bff;
-            margin-bottom: 20px;
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
             text-align: center;
-            font-size: 15px;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
         }
 
         .summary-box {
-            background: #f8f9fa;
-            padding: 18px;
-            border-radius: 8px;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            padding: 20px 25px;
+            border-radius: 10px;
             margin-bottom: 30px;
             font-size: 14px;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .error-box {
-            background: #f8d7da;
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid #dc3545;
+            background: #fff5f5;
+            border: 2px solid #fc8181;
+            padding: 25px;
+            border-radius: 10px;
             margin: 25px 0;
-            color: #721c24;
+            color: #742a2a;
             font-size: 15px;
-            line-height: 1.6;
+            line-height: 1.7;
+            box-shadow: 0 4px 12px rgba(252, 129, 129, 0.2);
         }
 
         .hint {
-            color: #666;
+            color: #718096;
             font-size: 14px;
             margin: 20px 0;
             text-align: center;
@@ -87,35 +120,40 @@
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         label {
             display: block;
-            color: #333;
+            color: #2d3748;
             font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: 10px;
+            font-size: 15px;
         }
 
         select, input[type="text"] {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            padding: 14px 16px;
+            border: 2px solid #cbd5e0;
+            border-radius: 10px;
             font-size: 15px;
-            box-sizing: border-box;
-            transition: border-color 0.2s;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        select:hover, input[type="text"]:hover {
+            border-color: #a0aec0;
         }
 
         select:focus, input[type="text"]:focus {
             outline: none;
-            border-color: #007bff;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .or-divider {
             text-align: center;
-            margin: 25px 0;
+            margin: 30px 0;
             position: relative;
         }
 
@@ -125,107 +163,164 @@
             left: 0;
             top: 50%;
             width: 100%;
-            height: 1px;
-            background: #ddd;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #e2e8f0, transparent);
         }
 
         .or-divider span {
             background: white;
-            padding: 0 15px;
-            color: #999;
-            font-size: 13px;
+            padding: 0 20px;
+            color: #a0aec0;
+            font-size: 14px;
             position: relative;
-            font-weight: 500;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .submit-btn {
             width: 100%;
-            background: #007bff;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 14px;
+            padding: 16px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 16px;
-            margin-top: 10px;
-            transition: background 0.2s;
+            font-weight: 700;
+            font-size: 17px;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .submit-btn:hover {
-            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
         }
 
         .back-link {
             display: inline-block;
-            margin-top: {% if recommendations %}30px{% else %}20px{% endif %};
-            padding: 12px {% if recommendations %}24px{% else %}30px{% endif %};
-            background: {% if recommendations %}#6c757d{% else %}#007bff{% endif %};
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: #718096;
             color: white;
             text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: background 0.2s;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         .back-link:hover {
-            background: {% if recommendations %}#5a6268{% else %}#0056b3{% endif %};
+            background: #4a5568;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         table thead {
-            background: #007bff;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
 
         table th {
-            padding: 14px 12px;
+            padding: 16px 14px;
             text-align: left;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         table td {
-            padding: 14px 12px;
-            border-bottom: 1px solid #e9ecef;
-            font-size: 14px;
+            padding: 16px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 15px;
+        }
+
+        table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f7fafc;
         }
 
         table tbody tr:hover {
-            background-color: #f8f9fa;
+            background-color: #edf2f7;
         }
 
         .rank-col {
-            width: 60px;
+            width: 70px;
             text-align: center;
-            font-weight: 700;
-            color: #007bff;
-            font-size: 16px;
+            font-weight: 800;
+            font-size: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .positive {
-            color: #28a745;
-            font-weight: 600;
+            color: #38a169;
+            font-weight: 700;
         }
 
         .negative {
-            color: #dc3545;
+            color: #e53e3e;
+            font-weight: 600;
         }
 
         .footer {
-            margin-top: 35px;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
             font-size: 13px;
-            color: #999;
+            color: #a0aec0;
             text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            table th, table td {
+                padding: 10px 8px;
+            }
         }
     </style>
 </head>
 <body>
+
+{% if not error and not recommendations %}
+<div class="header-banner">
+    <h1>IIITB AI-ML Capstone Project</h1>
+    <p>Sentiment-Based Product Recommendation System</p>
+</div>
+{% endif %}
 
 <div class="container">
     {% if error %}
@@ -284,10 +379,10 @@
     {% else %}
         <!-- Input Form State (Default) -->
         <h2>Product Recommendation System</h2>
-        <div class="subtitle">Sentiment-Based ML Recommendations</div>
+        <div class="subtitle">AI-Powered Sentiment Analysis & Collaborative Filtering</div>
 
         <div class="project-info">
-            <strong>About:</strong> This system uses Item-Based Collaborative Filtering to generate 20 recommendations, then applies Random Forest sentiment analysis to filter the top 5 products with the most positive reviews.
+            <strong>How it works:</strong> This system uses Item-Based Collaborative Filtering to generate 20 recommendations, then applies Random Forest sentiment analysis to filter the top 5 products with the most positive reviews.
         </div>
 
         <div class="form-area">
@@ -303,7 +398,7 @@
                 </div>
 
                 <div class="or-divider">
-                    <span>OR</span>
+                    <span>Or</span>
                 </div>
 
                 <div class="input-group">
