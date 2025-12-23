@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>IIITB Capstone - Product Recommendation System</title>
+    <title>{% if error %}Error{% elif recommendations %}Recommendations{% else %}IIITB Capstone{% endif %} - Product Recommendation System</title>
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -13,7 +13,7 @@
         }
 
         .container {
-            max-width: 650px;
+            max-width: {% if recommendations %}1100px{% else %}650px{% endif %};
             margin: 40px auto;
             background: white;
             padding: 35px;
@@ -22,10 +22,10 @@
         }
 
         h2 {
-            color: #1a1a1a;
+            color: {% if error %}#dc3545{% else %}#1a1a1a{% endif %};
             text-align: center;
-            margin-bottom: 10px;
-            font-size: 28px;
+            margin-bottom: {% if error %}20px{% else %}10px{% endif %};
+            font-size: {% if error %}26px{% else %}28px{% endif %};
         }
 
         .subtitle {
@@ -43,6 +43,43 @@
             margin-bottom: 30px;
             font-size: 14px;
             line-height: 1.6;
+        }
+
+        .user-info {
+            background: #e7f3ff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .summary-box {
+            background: #f8f9fa;
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .error-box {
+            background: #f8d7da;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #dc3545;
+            margin: 25px 0;
+            color: #721c24;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .hint {
+            color: #666;
+            font-size: 14px;
+            margin: 20px 0;
+            text-align: center;
         }
 
         .form-area {
@@ -119,6 +156,67 @@
             background: #0056b3;
         }
 
+        .back-link {
+            display: inline-block;
+            margin-top: {% if recommendations %}30px{% else %}20px{% endif %};
+            padding: 12px {% if recommendations %}24px{% else %}30px{% endif %};
+            background: {% if recommendations %}#6c757d{% else %}#007bff{% endif %};
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .back-link:hover {
+            background: {% if recommendations %}#5a6268{% else %}#0056b3{% endif %};
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table thead {
+            background: #007bff;
+            color: white;
+        }
+
+        table th {
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 14px;
+        }
+
+        table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .rank-col {
+            width: 60px;
+            text-align: center;
+            font-weight: 700;
+            color: #007bff;
+            font-size: 16px;
+        }
+
+        .positive {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .negative {
+            color: #dc3545;
+        }
+
         .footer {
             margin-top: 35px;
             font-size: 13px;
@@ -130,40 +228,96 @@
 <body>
 
 <div class="container">
-    <h2>Product Recommendation System</h2>
-    <div class="subtitle">Sentiment-Based ML Recommendations</div>
+    {% if error %}
+        <!-- Error State -->
+        <h2>Error Occurred</h2>
 
-    <div class="project-info">
-        <strong>About:</strong> This system uses Item-Based Collaborative Filtering to generate 20 recommendations, then applies Random Forest sentiment analysis to filter the top 5 products with the most positive reviews.
-    </div>
+        <div class="error-box">
+            {{ error }}
+        </div>
 
-    <div class="form-area">
-        <form action="/recommend" method="POST">
-            <div class="input-group">
-                <label for="username_select">Select User from Dataset</label>
-                <select name="username_select" id="username_select">
-                    <option value="">Choose a user...</option>
-                    {% for user in users %}
-                        <option value="{{ user }}">{{ user }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+        <p class="hint">Please check the username and try again.</p>
 
-            <div class="or-divider">
-                <span>OR</span>
-            </div>
+        <a href="/" class="back-link">&larr; Back to Home</a>
 
-            <div class="input-group">
-                <label for="username_input">Enter Username Manually</label>
-                <input type="text"
-                       name="username_input"
-                       id="username_input"
-                       placeholder="Type username here...">
-            </div>
+    {% elif recommendations %}
+        <!-- Results State -->
+        <h2>Top 5 Recommendations</h2>
 
-            <button type="submit" class="submit-btn">Get Recommendations</button>
-        </form>
-    </div>
+        <div class="user-info">
+            <strong>Recommendations for:</strong> {{ username }}
+        </div>
+
+        <div class="summary-box">
+            <strong>Process:</strong> Generated {{ total_generated }} recommendations using Item-Based CF, filtered to top 5 using Random Forest sentiment analysis based on positive review percentage.
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Product Name</th>
+                    <th>Predicted Rating</th>
+                    <th>Total Reviews</th>
+                    <th>Positive</th>
+                    <th>Negative</th>
+                    <th>Positive %</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in recommendations %}
+                <tr>
+                    <td class="rank-col">{{ loop.index }}</td>
+                    <td>{{ product.product }}</td>
+                    <td>{{ "%.2f"|format(product.predicted_rating) }}/5.0</td>
+                    <td>{{ product.total_reviews }}</td>
+                    <td class="positive">{{ product.positive_reviews }}</td>
+                    <td class="negative">{{ product.negative_reviews }}</td>
+                    <td class="positive">{{ "%.1f"|format(product.positive_percentage) }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="/" class="back-link">&larr; Back to Home</a>
+
+    {% else %}
+        <!-- Input Form State (Default) -->
+        <h2>Product Recommendation System</h2>
+        <div class="subtitle">Sentiment-Based ML Recommendations</div>
+
+        <div class="project-info">
+            <strong>About:</strong> This system uses Item-Based Collaborative Filtering to generate 20 recommendations, then applies Random Forest sentiment analysis to filter the top 5 products with the most positive reviews.
+        </div>
+
+        <div class="form-area">
+            <form action="/recommend" method="POST">
+                <div class="input-group">
+                    <label for="username_select">Select User from Dataset</label>
+                    <select name="username_select" id="username_select">
+                        <option value="">Choose a user...</option>
+                        {% for user in users %}
+                            <option value="{{ user }}">{{ user }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="or-divider">
+                    <span>OR</span>
+                </div>
+
+                <div class="input-group">
+                    <label for="username_input">Enter Username Manually</label>
+                    <input type="text"
+                           name="username_input"
+                           id="username_input"
+                           placeholder="Type username here...">
+                </div>
+
+                <button type="submit" class="submit-btn">Get Recommendations</button>
+            </form>
+        </div>
+    {% endif %}
 
     <div class="footer">
         IIITB AI-ML Capstone Project | 2024-25

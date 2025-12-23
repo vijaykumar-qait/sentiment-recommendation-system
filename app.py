@@ -47,13 +47,13 @@ def recommend():
         username = request.form.get('username_select')
 
     if not username:
-        return render_template('error.html', error="Please either select a user from dropdown or type username")
+        return render_template('index.html', error="Please either select a user from dropdown or type username")
 
     # Generate top 20 recommendations
     top_20, error = get_top_20_recommendations(username)
 
     if error:
-        return render_template('error.html', error=error)
+        return render_template('index.html', error=error)
 
     # Apply sentiment filtering to get top 5
     top_5 = apply_sentiment_filtering(top_20)
@@ -61,7 +61,7 @@ def recommend():
     # Convert to list of dicts for template
     top_5_list = top_5.to_dict('records')
 
-    return render_template('results.html',
+    return render_template('index.html',
                          username=username,
                          recommendations=top_5_list,
                          total_generated=len(top_20))
