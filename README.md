@@ -1,26 +1,13 @@
- # Product Recommendation System - Capstone Project
+---
+title: Sentiment Product Recommendations
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+---
 
-  IIITB PG Program in AI/ML
+# Sentiment-Based Product Recommendation System
 
-  ## About
-  This project builds a recommendation system using sentiment analysis for an e-commerce company.
+IIITB AI-ML Capstone Project 2024-25
 
-  ## How to Run
-  ```bash
-  pip install -r requirements.txt
-  python app.py
-
-  Files
-  - SentimentBasedProductRecommendationSystem.ipynb - main notebook with all analysis
-  - model.py - ML models (Random Forest + Item-Based CF)
-  - app.py - Flask web app
-  - templates/ - HTML files
-
-  Models Used
-  - Sentiment: Random Forest (F1 score: 0.9558)
-  - Recommendation: Item-Based Collaborative Filtering
-
-  Deployment
-  - Deployed on Heroku: [link-here]
-  
-  ---Note: This was a challenging project! Spent most time on handling class imbalance and getting the recommendation system to work properly.
+This system uses Item-Based Collaborative Filtering + Random Forest sentiment analysis to recommend products.
