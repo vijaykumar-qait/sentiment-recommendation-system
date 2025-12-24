@@ -2,8 +2,8 @@
 model.py - ML models for product recommendation system
 
 Contains:
-- Random Forest sentiment model (F1: 0.9558)
-- Item-Based Collaborative Filtering (RMSE: 1.11)
+- Random Forest sentiment model
+- Item-Based Collaborative Filtering
 - Prediction functions
 """
 
@@ -34,23 +34,23 @@ def load_models():
 
         # Load sentiment model (Random Forest - Best from Task 4)
         sentiment_model = joblib.load('models/best_sentiment_model.pkl')
-        print("✓ Sentiment model loaded (Random Forest, F1=0.9558)")
+        print("Sentiment model loaded (Random Forest, F1=0.9558)")
 
         # Load TF-IDF vectorizer
         tfidf_vectorizer = joblib.load('models/tfidf_vectorizer.pkl')
-        print("✓ TF-IDF vectorizer loaded (5000 features)")
+        print("TF-IDF vectorizer loaded (5000 features)")
 
         # Load recommendation system data
         train_matrix = pd.read_csv('models/train_matrix.csv', index_col=0)
-        print(f"✓ Training matrix loaded ({train_matrix.shape[0]} users × {train_matrix.shape[1]} products)")
+        print(f"Training matrix loaded ({train_matrix.shape[0]} users × {train_matrix.shape[1]} products)")
 
         # Load product similarity matrix (Item-Based CF - Best from Task 5)
         product_similarity_df = joblib.load('models/product_similarity.pkl')
-        print("✓ Product similarity matrix loaded (Item-Based CF)")
+        print("Product similarity matrix loaded (Item-Based CF)")
 
         # Load full dataset for sentiment analysis
         df_full = pd.read_csv('data/processed_text_data.csv')
-        print(f"✓ Review data loaded ({len(df_full)} reviews)")
+        print(f"Review data loaded ({len(df_full)} reviews)")
 
         # Load and display system info
         with open('models/recommendation_system_info.json', 'r') as f:
@@ -77,17 +77,6 @@ def predict_item_based(user, product, k=10):
     3. Take top K most similar products
     4. Return weighted average of user's ratings for similar products
 
-    Args:
-        user (str): Username
-        product (str): Product name
-        k (int): Number of similar products to consider (default: 10)
-
-    Returns:
-        float: Predicted rating (0-5), or 0 if cannot predict
-
-    Example:
-        >>> predict_item_based('mike', 'iPhone Case', k=10)
-        4.85
     """
     # Check if user exists
     if user not in train_matrix.index:
@@ -136,18 +125,6 @@ def get_top_20_recommendations(username):
     3. Sort by predicted rating
     4. Return top 20
 
-    Args:
-        username (str): Username
-
-    Returns:
-        tuple: (recommendations_df, error_message)
-            - recommendations_df (DataFrame): Top 20 products with predicted ratings
-            - error_message (str): Error message if failed, None if successful
-
-    Example:
-        >>> top_20, error = get_top_20_recommendations('mike')
-        >>> if not error:
-        >>>     print(f"Generated {len(top_20)} recommendations")
     """
     # Validate user exists
     if username not in train_matrix.index:
@@ -194,18 +171,6 @@ def apply_sentiment_filtering(top_20):
     This integrates both systems:
     - Recommendation System: Generates candidates based on ratings
     - Sentiment Analysis: Validates quality based on review sentiment
-
-    Args:
-        top_20 (DataFrame): Top 20 recommendations with columns ['product', 'predicted_rating']
-
-    Returns:
-        DataFrame: Top 5 products with sentiment scores
-            Columns: product, predicted_rating, total_reviews, positive_reviews,
-                    negative_reviews, positive_percentage
-
-    Example:
-        >>> top_5 = apply_sentiment_filtering(top_20)
-        >>> print(top_5[['product', 'positive_percentage']])
     """
     product_sentiments = []
 
@@ -254,14 +219,6 @@ def apply_sentiment_filtering(top_20):
 def get_model_info():
     """
     Get information about loaded models
-
-    Returns:
-        dict: Model metadata including:
-            - sentiment_model_name: Name of sentiment model
-            - sentiment_metrics: Performance metrics
-            - recommendation_system: Name of recommendation system
-            - recommendation_metrics: Performance metrics
-            - data_statistics: Dataset statistics
     """
     info = {
         'sentiment_model': {
@@ -323,9 +280,9 @@ if __name__ == '__main__':
         print("="*80)
         top_20, error = get_top_20_recommendations('mike')
         if not error:
-            print(f"✓ Generated {len(top_20)} recommendations")
+            print(f"Generated {len(top_20)} recommendations")
             top_5 = apply_sentiment_filtering(top_20)
-            print(f"✓ Filtered to {len(top_5)} products with sentiment analysis")
+            print(f"Filtered to {len(top_5)} products with sentiment analysis")
             print("\nTop 5 Products:")
             for idx, row in top_5.iterrows():
                 print(f"  {row['product'][:50]}...")
